@@ -17,6 +17,6 @@ A current limitation of the original version, is that it requires the copying of
 
 To solve this, my next check-in will instead make use of the Visual Studio import/export bindings (vssettings), stored per user, with a specified set of Emacs key bindings, that can then be edited locally according to taste.
 
+## Known Possible Issues ##
 
-
-
+To build the VS2019 branch, delete the `obj` and `bin` folders that get created when opening the project in visual studio.

@@ -18,23 +18,21 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
     /// 
     /// Note, repeatedly using c-y pastes repeated copies in the buffer, 
     /// even if c-y were to activate the region because emacs never replaces the region, 
-    /// it always inserts at the point, ignoring that there’s a region.
+    /// it always inserts at the point, ignoring that there’s a region. But I'm
+    /// ignoring that behavior to emulate overwrite-selection mode.
     /// 
     /// Keys: Ctrl+Y
     /// </summary>
     /// 
-    [EmacsCommand(VSConstants.VSStd97CmdID.Paste, UndoName="Paste")]
+    [EmacsCommand(VSConstants.VSStd97CmdID.Paste, UndoName = "Paste")]
     internal class PasteCommand : EmacsCommand
     {
         internal override void Execute(EmacsCommandContext context)
         {
-            // In Emacs, if there's a selection and text is pasted, the selection is cleared first
-            if (context.MarkSession.IsActive)
-                context.MarkSession.Deactivate(clearSelection: true);
-
+            // emulate overwrite-selection mode, so don't adopt vanilla emacs behavior
             // Push the mark represented by the current position of the caret
             context.MarkSession.PushMark(false);
-            
+
             context.CommandRouter.ExecuteDTECommand("Edit.Paste");
         }
     }

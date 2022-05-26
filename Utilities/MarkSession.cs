@@ -95,7 +95,7 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation
         {
             this.PushMark(this.view.GetCaretPosition(), activateSession);
 
-            if(activateSession)
+            if (activateSession)
                 this.UpdateSelection();
         }
 
@@ -104,7 +104,7 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation
             this.marks.Push(this.activeMark);
             this.activeMark = this.currentMark = this.CreateTrackingPoint(position);
 
-            if(activateSession)
+            if (activateSession)
                 this.IsActive = true;
         }
 
@@ -135,9 +135,9 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation
         internal void RemoveTopMark()
         {
             if (this.marks.Count > 0)
-            {            
+            {
                 this.activeMark = this.marks.Pop();
-            }            
+            }
         }
 
         /// <summary>
@@ -162,21 +162,24 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation
                     switch (nCmdID)
                     {
                         // Translate Left/Right/Up/Down to Emacs commands
-                        case (uint)VSConstants.VSStd2KCmdID.LEFT: 
-                            this.manager.Execute(this.view, EmacsCommandID.CharLeft); 
+                        case (uint)VSConstants.VSStd2KCmdID.LEFT:
+                            this.manager.Execute(this.view, EmacsCommandID.CharLeft);
                             return VSConstants.S_OK;
-                        case (uint)VSConstants.VSStd2KCmdID.RIGHT: 
-                            this.manager.Execute(this.view, EmacsCommandID.CharRight); 
+                        case (uint)VSConstants.VSStd2KCmdID.RIGHT:
+                            this.manager.Execute(this.view, EmacsCommandID.CharRight);
                             return VSConstants.S_OK;
-                        case (uint)VSConstants.VSStd2KCmdID.UP: 
+                        case (uint)VSConstants.VSStd2KCmdID.UP:
                             this.manager.Execute(this.view, EmacsCommandID.LineUp);
                             return VSConstants.S_OK;
-                        case (uint)VSConstants.VSStd2KCmdID.DOWN: 
-                            this.manager.Execute(this.view, EmacsCommandID.LineDown); 
+                        case (uint)VSConstants.VSStd2KCmdID.DOWN:
+                            this.manager.Execute(this.view, EmacsCommandID.LineDown);
                             return VSConstants.S_OK;
                         // Handle cancelation keys
                         case (uint)VSConstants.VSStd2KCmdID.TYPECHAR:
                         case (uint)VSConstants.VSStd2KCmdID.BACKSPACE:
+                            this.manager.Execute(this.view, EmacsCommandID.DeleteSelection);
+                            Deactivate();
+                            break;
                         case (uint)VSConstants.VSStd2KCmdID.CANCEL:
                         case (uint)VSConstants.VSStd2KCmdID.TAB:
                             Deactivate();
