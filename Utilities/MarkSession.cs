@@ -177,6 +177,9 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation
                         // Handle cancelation keys
                         case (uint)VSConstants.VSStd2KCmdID.TYPECHAR:
                         case (uint)VSConstants.VSStd2KCmdID.BACKSPACE:
+                            this.manager.Execute(this.view, EmacsCommandID.DeleteSelection);
+                            Deactivate();
+                            break;
                         case (uint)VSConstants.VSStd2KCmdID.CANCEL:
                         case (uint)VSConstants.VSStd2KCmdID.TAB:
                             Deactivate();

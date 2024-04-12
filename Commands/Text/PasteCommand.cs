@@ -28,10 +28,7 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
     {
         internal override void Execute(EmacsCommandContext context)
         {
-            // In Emacs, if there's a selection and text is pasted, the selection is cleared first
-            if (context.MarkSession.IsActive)
-                context.MarkSession.Deactivate(clearSelection: true);
-
+            // emulate overwrite-selection mode, so don't adopt vanilla emacs behavior
             // Push the mark represented by the current position of the caret
             context.MarkSession.PushMark(false);
             

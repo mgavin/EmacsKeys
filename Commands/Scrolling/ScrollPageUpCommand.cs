@@ -22,11 +22,8 @@ namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
     {
         internal override void Execute(EmacsCommandContext context)
         {
-            var currentLineDifference = context.TextBuffer.GetLineNumber(context.TextView.Caret.Position.BufferPosition) - context.TextBuffer.GetLineNumber(context.TextView.TextViewLines.FirstVisibleLine.Start);
-
-            context.EditorOperations.ScrollPageUp();
-
-            context.TextView.PositionCaretOnLine(currentLineDifference);
+                        context.EditorOperations.MoveToTopOfView();
+                        context.EditorOperations.ScrollLineCenter();
         }
     }
 }
