@@ -9,18 +9,18 @@ using System.ComponentModel.Composition;
 
 namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
 {
-    /// <summary>
-    /// This command aborts any executing command or code and throws to the top-level command loop.  
-    ///
-    /// Keys: Ctrl+G
-    /// </summary>
-    [EmacsCommand(EmacsCommandID.Quit)]
-    internal class QuitCommand : EmacsCommand
-    {
-        internal override void Execute(EmacsCommandContext context)
+        /// <summary>
+        /// This command aborts any executing command or code and throws to the top-level command loop.  
+        ///
+        /// Keys: Ctrl+G
+        /// </summary>
+        [EmacsCommand(EmacsCommandID.Quit)]
+        internal class QuitCommand : EmacsCommand
         {
-            context.Manager.ClearStatus();
-            // Other commands may listen the execution of the quit command and cancel their execution
+                internal override void Execute(EmacsCommandContext context)
+                {
+                        context.Manager.ClearStatus();
+                        // Other commands may listen the execution of the quit command and cancel their execution
+                }
         }
-    }
 }

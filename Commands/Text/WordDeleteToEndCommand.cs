@@ -9,33 +9,33 @@ using System.ComponentModel.Composition;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Text;
 
-namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands
-{
-    /// <summary>
-    /// This command kills from point to location forward-word would place the caret, including the prefix arg handling of forward-word.
-    /// 
-    /// Keys: Alt+D
-    /// </summary>
-    [EmacsCommand(EmacsCommandID.WordDeleteToEnd, IsKillCommand = true, InverseCommand = EmacsCommandID.WordDeleteToStart, UndoName="Cut")]
-    internal class WordDeleteToEndCommand : EmacsCommand
-    {
-        internal override void Execute(EmacsCommandContext context)
-        {
-            SnapshotSpan? word = null;
-            for (var counter = context.Manager.GetUniversalArgumentOrDefault(1); counter > 0; counter--)
-            {
-                if (word.HasValue)
-                    word = context.TextStructureNavigator.GetNextWord(word.Value.End);
-                else
-                    word = context.TextStructureNavigator.GetNextWord(context.TextView);
+namespace Microsoft.VisualStudio.Editor.EmacsEmulation.Commands {
+/// <summary>
+/// This command kills from point to location forward-word would place the caret, including the prefix arg handling of
+/// forward-word.
+///
+/// Keys: Alt+D
+/// </summary>
+[EmacsCommand(
+      EmacsCommandID.WordDeleteToEnd,
+      IsKillCommand  = false,
+      InverseCommand = EmacsCommandID.WordDeleteToStart,
+      UndoName       = "Cut")] internal class WordDeleteToEndCommand : EmacsCommand {
+      internal override void Execute(EmacsCommandContext context) {
+            SnapshotSpan ? word = null;
+            for (var counter = context.Manager.GetUniversalArgumentOrDefault(1); counter > 0; counter--) {
+                  if (word.HasValue) {
+                        word = context.TextStructureNavigator.GetNextWord(word.Value.End);
+                  } else {
+                        word = context.TextStructureNavigator.GetNextWord(context.TextView);
+                  }
             }
 
-            if (word.HasValue)
-            {
-                var caretPosition = context.TextView.GetCaretPosition();
+            if (word.HasValue) {
+                  var caretPosition = context.TextView.GetCaretPosition();
 
-                context.EditorOperations.Delete(caretPosition, word.Value.End - caretPosition);
+                  context.EditorOperations.Delete(caretPosition, word.Value.End - caretPosition);
             }
-        }
-    }
+      }
 }
+}  // namespace Microsoft.VisualStudio.Editor.EmacsEmulation. Commands
